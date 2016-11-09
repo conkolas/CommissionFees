@@ -1,0 +1,27 @@
+{
+  "name": "commission-fees",
+  "version": "1.0.0",
+  "description": "Calculates commission fees from API data",
+  "main": "gulpfile.js",
+  "scripts": {
+    "test": "mocha test",
+    "coverage": "istanbul cover _mocha test --recursive -- -u      exports -R spec && open coverage/lcov-report/index.html"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/conkolas/CommissionFees.git"
+  },
+  "author": "Aistis Matulis",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/conkolas/CommissionFees/issues"
+  },
+  "homepage": "https://github.com/conkolas/CommissionFees#readme",
+  "devDependencies": {
+    "chai": "^3.5.0",
+    "gulp": "^3.9.1",
+    "gulp-istanbul": "^1.1.1",
+    "gulp-util": "^3.0.7",
+    "mocha": "^3.1.2"
+  }
+}
