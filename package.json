@@ -22,10 +22,10 @@
     "chai-as-promised": "^6.0.0",
     "gulp": "^3.9.1",
     "gulp-istanbul": "^1.1.1",
+    "gulp-mocha": "^3.0.1",
     "gulp-util": "^3.0.7",
     "gulp-watch": "^4.3.10",
     "jscs": "^3.0.7",
-    "mocha": "^3.1.2",
-    "sinon": "^1.17.6"
+    "mocha": "^3.1.2"
   }
 }
