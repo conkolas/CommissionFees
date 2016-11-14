@@ -16,23 +16,36 @@ module.exports = class Config {
 
   /**
    * Executes config Promises and returns array with mapped values
+   *
    * @param configPromises
    * @returns {Array}
    */
   fetchConfigs(callback) {
-    Promise.all(this.collectConfigPromises(API)).then(function (configResults) {
+    let _this = this;
+    Promise.all(this.collectApiPromises(API)).then(function (configResults) {
       callback(false, function () {
-        let mapTypeValue = [];
-        configResults.forEach((result) => {
-          Object.keys(result).forEach((key) => {
-            mapTypeValue[key] = result[key];
-          });
-        });
-        return mapTypeValue;
+        return _this.remapConfigResults(configResults);
       });
     }).catch(function (err) {
       callback(err, null);
     });
+  }
+
+  /**
+   * Maps each config object key to single object new key
+   * {{key1: value1}, {key2: value2}} => {key1: value1, key2: value2}
+   *
+   * @param configResults
+   * @returns {Array}
+   */
+  remapConfigResults(configResults) {
+    let mapTypeValue = [];
+    configResults.forEach((result) => {
+      Object.keys(result).forEach((key) => {
+        mapTypeValue[key] = result[key];
+      });
+    });
+    return mapTypeValue;
   }
 
   /**
@@ -41,7 +54,7 @@ module.exports = class Config {
    * @param config
    * @returns {Array}
    */
-  collectConfigPromises(api) {
+  collectApiPromises(api) {
     let configPromises = [];
     Object.keys(api).forEach((configType) => {
       configPromises.push(this.getConfigPromise(API[configType], configType));
@@ -53,6 +66,7 @@ module.exports = class Config {
   /**
    * Returns config Promise which returns object
    * with single key representing config type and its value
+   *
    * @param url
    * @param configType
    * @returns {Promise}

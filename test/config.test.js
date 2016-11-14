@@ -25,12 +25,12 @@ describe('Configuration', function () {
     Config.getAPI().should.have.property('rates').with.not.length(0);
   });
 
-  it('should fetch config object', function () {
-    let result = _config.getConfigPromise(
+  it('should fetch config object', function (done) {
+    let fetchConfig = _config.getConfigPromise(
       'http://private-38e18c-uzduotis.apiary-mock.com/config/cash-in',
       'cash_in'
     );
 
-    return expect(result).to.eventually.be.a('object').with.key('cash_in');
+    return expect(fetchConfig.then(done())).to.eventually.be.a('object').with.key('cash_in');
   });
 });

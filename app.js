@@ -11,29 +11,44 @@ class App {
       // return;
     }
 
-    let _this = this;
-    let inputPromise = this.inputPromise(inputPath);
-    let configPromise = this.configPromise();
-
     // Initialize app when all assets is fetched
-    Promise.all([inputPromise, configPromise]).then(function (results) {
-      _this.initialize(_this.remapFetchedData(results));
+    let assets = [this.inputPromise(inputPath), this.configPromise()];
+    this.fetchAssets(this, assets, this.initialize);
+  }
+
+  fetchAssets(_this, assetsPromises, callback) {
+    Promise.all(assetsPromises).then(function (results) {
+      callback(false, _this, results);
     }).catch(function (err) {
-      console.warn(err);
+      callback(err, _this, null);
     });
   }
 
   /**
    * Sets input and config params from data object
-   * Creates Bank instance and passes
+   * Creates Bank instance and iterates execution of transactions
+   *
    * @param data
    */
-  initialize(data) {
-    this.bank = new Bank(data.config);
+  initialize(err, _this, data) {
+    if (err) {
+      console.warn(err.message);
+      return false;
+    }
+
+    let applicationData = _this.remapFetchedData(data);
+
+    _this.bank = new Bank(applicationData.config);
+
+    applicationData.input.forEach(function(transaction){
+      let executedTransaction = _this.bank.executeTransaction(transaction);
+      console.log(executedTransaction.taxes);
+    });
   }
 
   /**
    * Extracts inner object keys as array keys with values
+   *
    * @param results
    * @returns {Array}
    */
@@ -50,7 +65,8 @@ class App {
   }
 
   /**
-   * Reads input file from command line argument
+   * Reads input file from path
+   *
    * @returns {Promise}
    */
   inputPromise(path) {
@@ -58,13 +74,14 @@ class App {
       fs.readFile(path, 'utf8', function (err, contents) {
         if (err) reject(err.message);
 
-        resolve({ input: contents });
+        resolve({ input: JSON.parse(contents) });
       });
     });
   }
 
   /**
    * Fetches config objects from api provided in config
+   *
    * @returns {Promise}
    */
   configPromise() {
