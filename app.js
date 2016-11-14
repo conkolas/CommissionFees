@@ -1,12 +1,12 @@
-const
-  fs = require('fs'),
-  Config = require('./src/config');
+const fs = require('fs');
+const Config = require('./src/config');
+const Bank = require('./src/bank');
 
 class App {
   constructor(inputPath) {
     if (inputPath == undefined) {
       console.warn('No file specified!');
-      inputPath = 'input.js';
+      inputPath = 'input.json';
 
       // return;
     }
@@ -17,10 +17,19 @@ class App {
 
     // Initialize app when all assets is fetched
     Promise.all([inputPromise, configPromise]).then(function (results) {
-      _this.init(_this.remapFetchedData(results));
+      _this.initialize(_this.remapFetchedData(results));
     }).catch(function (err) {
       console.warn(err);
     });
+  }
+
+  /**
+   * Sets input and config params from data object
+   * Creates Bank instance and passes
+   * @param data
+   */
+  initialize(data) {
+    this.bank = new Bank(data.config);
   }
 
   /**
@@ -47,7 +56,7 @@ class App {
   inputPromise(path) {
     return new Promise(function (resolve, reject) {
       fs.readFile(path, 'utf8', function (err, contents) {
-        if (err) reject(err);
+        if (err) reject(err.message);
 
         resolve({ input: contents });
       });
@@ -63,16 +72,11 @@ class App {
       let config = new Config();
 
       config.fetchConfigs((err, results) => {
-        if (err) reject(err);
+        if (err) reject(err.message);
 
         resolve({ config: results() });
       });
     });
-  }
-
-  init(data) {
-    this.input = data.input;
-    this.config = data.config;
   }
 }
 module.exports = App;
