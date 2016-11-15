@@ -16,7 +16,6 @@ class CurrencyConverter {
     return this.round(converted);
   }
 
-
   /**
    * Ceils number second decimal place to larger value
    * @param number

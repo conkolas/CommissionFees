@@ -15,7 +15,7 @@ class TransationRepo {
   }
 
   static findWhere(recordKey, value) {
-    return Repo.filter(function(record) {
+    return Repo.filter(function (record) {
       return record[recordKey] == value;
     });
   }

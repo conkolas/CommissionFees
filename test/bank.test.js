@@ -46,7 +46,7 @@ describe('Bank', function () {
       user_id: 1,
       user_type: 'natural',
       type: 'cash_out',
-      operation: { amount: 30000, currency: 'EUR' }
+      operation: { amount: 30000, currency: 'EUR' },
     };
 
     let executed = bank.executeTransaction(cashOutNatural);
@@ -55,11 +55,11 @@ describe('Bank', function () {
 
   it('should accept cash out for juridical user', function () {
     let cashOutJuridical = {
-      date:       '2016-01-05',
-      user_id:    1,
-      user_type:  'juridical',
-      type:       'cash_out',
-      operation:  { amount: 200.00, currency: 'EUR' },
+      date: '2016-01-05',
+      user_id: 1,
+      user_type: 'juridical',
+      type: 'cash_out',
+      operation: { amount: 200.00, currency: 'EUR' },
     };
 
     let executed = bank.executeTransaction(cashOutJuridical);

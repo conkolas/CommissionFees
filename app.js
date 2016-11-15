@@ -40,7 +40,7 @@ class App {
 
     _this.bank = new Bank(applicationData.config);
 
-    applicationData.input.forEach(function(transaction){
+    applicationData.input.forEach(function (transaction) {
       let executedTransaction = _this.bank.executeTransaction(transaction);
       console.log(executedTransaction.taxes);
     });

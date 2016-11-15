@@ -20,7 +20,7 @@ class Bank {
 
     transaction = this.convertAmountCurrency(transaction);
 
-    switch (transaction.type){
+    switch (transaction.type) {
       case 'cash_in': {
         let cashIn = new CashInTransaction(transaction, this.config.cash_in);
         executedTransaction = cashIn.execute();
@@ -28,18 +28,18 @@ class Bank {
       }
 
       case 'cash_out': {
-        switch (transaction.user_type){
+        switch (transaction.user_type) {
           case 'natural': {
             let cashOutNatural =
               new CashOutNaturalTransaction(transaction, this.config.cash_out_natural);
-            executedTransaction =  cashOutNatural.execute();
+            executedTransaction = cashOutNatural.execute();
             break;
           }
 
           case 'juridical': {
             let cashOutJuridical =
               new CashOutJuridicalTransaction(transaction, this.config.cash_out_juridical);
-            executedTransaction =  cashOutJuridical.execute();
+            executedTransaction = cashOutJuridical.execute();
             break;
           }
         }
@@ -57,7 +57,7 @@ class Bank {
   convertAmountCurrency(transaction) {
     transaction.operation.amount = this.currencyConverter.convert({
       currency: transaction.operation.currency,
-      amount:   transaction.operation.amount,
+      amount: transaction.operation.amount,
     });
 
     return transaction;

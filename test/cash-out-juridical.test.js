@@ -5,11 +5,11 @@ describe('CashOutJuridicalTransaction', function () {
 
   it('should calculate taxes according to juridical config', function () {
     let juridicalCashOut = {
-      date:       '2016-01-05',
-      user_id:    1,
-      user_type:  'juridical',
-      type:       'cash_out',
-      operation:  { amount: 200.00, currency: 'EUR' },
+      date: '2016-01-05',
+      user_id: 1,
+      user_type: 'juridical',
+      type: 'cash_out',
+      operation: { amount: 200.00, currency: 'EUR' },
     };
 
     let cashOutJuridicalTransaction = new CashOutJuridicalTransaction(juridicalCashOut, config);
@@ -18,11 +18,11 @@ describe('CashOutJuridicalTransaction', function () {
 
   it('should set max value', function () {
     let juridicalCashOut = {
-      date:       '2016-01-05',
-      user_id:    1,
-      user_type:  'juridical',
-      type:       'cash_out',
-      operation:  { amount: 100.00, currency: 'EUR' },
+      date: '2016-01-05',
+      user_id: 1,
+      user_type: 'juridical',
+      type: 'cash_out',
+      operation: { amount: 100.00, currency: 'EUR' },
     };
 
     let cashOutJuridicalTransaction = new CashOutJuridicalTransaction(juridicalCashOut, config);
