@@ -6,18 +6,22 @@ on API configuration.
 
 In command line run:
 ```sh
-https://github.com/conkolas/CommissionFees.git
+git clone https://github.com/conkolas/CommissionFees.git
 ```
 ```sh
 cd CommissionFees
 ```
 
-To run with dummy data
+Run with dummy data
 ```sh
 node app.js input.json
 ```
+##
 
 Run tests:
+```sh
+npm install
+```
 ```sh
 gulp test
 ```
