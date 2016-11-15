@@ -1,4 +1,5 @@
 let Repo = [];
+
 class TransationRepo {
   static findAll() {
     return Repo;

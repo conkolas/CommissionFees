@@ -6,9 +6,7 @@ class App {
   constructor(inputPath) {
     if (inputPath == undefined) {
       console.warn('No file specified!');
-      inputPath = 'input.json';
-
-      // return;
+      return;
     }
 
     // Initialize app when all assets is fetched
@@ -36,10 +34,13 @@ class App {
       return false;
     }
 
+    // Separates input and API config data
     let applicationData = _this.remapFetchedData(data);
 
+    // Setup bank instance with fetched config data
     _this.bank = new Bank(applicationData.config);
 
+    // Execute every transaction from input data and write taxes to stdout
     applicationData.input.forEach(function (transaction) {
       let executedTransaction = _this.bank.executeTransaction(transaction);
       console.log(executedTransaction.taxes);

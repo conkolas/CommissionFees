@@ -32,6 +32,8 @@ class CashOutNaturalTransaction extends Transaction {
   exceededWeekLimit() {
     let startDate = this.getMonday(this.date);
     let endDate = new Date(this.date);
+
+    // Amount that is still free to cash out
     let currentLimit = Math.max(0, this.config.week_limit.amount - this.currentWeekUsage(startDate, endDate));
 
     return Math.max(0, this.operation.amount - currentLimit);
@@ -60,9 +62,15 @@ class CashOutNaturalTransaction extends Transaction {
    * @returns {Array}
    */
   getWeeklyTransactions(userId, startDate, endDate) {
+
+    // Get user transactions from repository
     return TransactionRepo.findWhere('user_id', userId).filter(function (transaction) {
       let transactionDate = new Date(transaction.date);
+
+      // Check if it is right type
       let isCashOutNatural = (transaction.type == 'cash_out' && transaction.user_type == 'natural');
+
+      // Check date range between week start and current transaction date
       let isInRange = (+startDate <= +transactionDate && +transactionDate <= +endDate);
 
       return isInRange && isCashOutNatural;
@@ -76,8 +84,8 @@ class CashOutNaturalTransaction extends Transaction {
    */
   getMonday(date) {
     date = new Date(date);
-    var day = date.getDay(),
-      diff = date.getDate() - day + (day == 0 ? -6 : 1);
+    let day = date.getDay(),
+        diff = date.getDate() - day + (day == 0 ? -6 : 1);
     return new Date(date.setDate(diff));
   }
 }

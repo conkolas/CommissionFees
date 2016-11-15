@@ -6,6 +6,8 @@ const CurrencyConverter = require('./currency-converter');
 class Bank {
   constructor(config) {
     this.config = config;
+
+    // For converting transaction amount to default currency
     this.currencyConverter = new CurrencyConverter(this.config.rates);
   }
 
@@ -18,7 +20,8 @@ class Bank {
   executeTransaction(transaction) {
     let executedTransaction = null;
 
-    transaction = this.convertAmountCurrency(transaction);
+    // Converts transaction amount to apply rules based on default currency
+    transaction = this.convertTransactionAmount(transaction);
 
     switch (transaction.type) {
       case 'cash_in': {
@@ -50,11 +53,11 @@ class Bank {
   }
 
   /**
-   * Sets transaction amount to main currency value
+   * Sets transaction amount to default currency value
    * @param transaction
    * @returns {*}
    */
-  convertAmountCurrency(transaction) {
+  convertTransactionAmount(transaction) {
     transaction.operation.amount = this.currencyConverter.convert({
       currency: transaction.operation.currency,
       amount: transaction.operation.amount,
