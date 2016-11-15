@@ -75,10 +75,11 @@ module.exports = class Config {
     return new Promise(function (resolve, reject) {
       request(url, function (err, response, body) {
         if (err) reject(err.message);
-
-        let configObject = {};
-        configObject[configType] = JSON.parse(body);
-        resolve(configObject);
+        if (body) {
+          let configObject = {};
+          configObject[configType] = JSON.parse(body);
+          resolve(configObject);
+        }
       });
     });
   }
