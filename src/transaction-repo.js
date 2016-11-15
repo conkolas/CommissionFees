@@ -1,6 +1,6 @@
 let Repo = [];
 
-class TransationRepo {
+class TransactionRepo {
   static findAll() {
     return Repo;
   }
@@ -22,4 +22,4 @@ class TransationRepo {
   }
 }
 
-module.exports = TransationRepo;
+module.exports = TransactionRepo;
