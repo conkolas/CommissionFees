@@ -20,7 +20,7 @@ class App {
     Promise.all(assetsPromises).then(function (results) {
       callback(false, _this, results);
     }).catch(function (err) {
-      callback(err, _this, null);
+      console.warn(err.message);
     });
   }
 
@@ -55,11 +55,12 @@ class App {
   remapFetchedData(results) {
     let appData = [];
 
-    results.forEach(function (result) {
-      Object.keys(result).forEach(function (key) {
-        appData[key] = result[key];
+    if (results)
+      results.forEach(function (result) {
+        Object.keys(result).forEach(function (key) {
+          appData[key] = result[key];
+        });
       });
-    });
 
     return appData;
   }
@@ -91,7 +92,8 @@ class App {
       config.fetchConfigs((err, results) => {
         if (err) reject(err.message);
 
-        resolve({ config: results() });
+        if (typeof results == 'function')
+          resolve({ config: results() });
       });
     });
   }

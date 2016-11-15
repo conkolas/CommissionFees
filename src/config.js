@@ -27,7 +27,7 @@ module.exports = class Config {
         return _this.remapConfigResults(configResults);
       });
     }).catch(function (err) {
-      callback(err, null);
+      console.warn(err.message);
     });
   }
 
@@ -40,11 +40,13 @@ module.exports = class Config {
    */
   remapConfigResults(configResults) {
     let mapTypeValue = [];
-    configResults.forEach((result) => {
-      Object.keys(result).forEach((key) => {
-        mapTypeValue[key] = result[key];
+    if (configResults.length > 0)
+      configResults.forEach((result) => {
+        if (result)
+          Object.keys(result).forEach((key) => {
+            mapTypeValue[key] = result[key];
+          });
       });
-    });
     return mapTypeValue;
   }
 
